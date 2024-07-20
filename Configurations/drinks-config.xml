@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+	<Coffee>
+		<Option>1</Option>
+		<Option>1.5</Option>
+		<Option>2</Option>
+		<Option>2.5</Option>
+		<Option>3</Option>
+	</Coffee>
+	<Sugar>
+		<Option>1</Option>
+		<Option>1.5</Option>
+		<Option>2</Option>
+		<Option>2.5</Option>
+		<Option>3</Option>
+	</Sugar>
+	<Milk>
+		<Option>Regular</Option>
+		<Option>Soy</Option>
+		<Option>Low Fat</Option>
+		<Option>Almonds</Option>
+	</Milk>
+</Config>
