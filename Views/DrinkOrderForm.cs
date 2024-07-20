@@ -39,7 +39,7 @@ namespace FileHandler.Views
 
             foreach (var node in nodes)
             {
-                dt.Rows.Add(node.Name, node.Price, node.Coffee, node.Milk, node.Sugar);
+                dt.Rows.Add(node.Name, node.Price, node.Ingredients.Coffee, node.Ingredients.Milk, node.Ingredients.Sugar);
             }
 
             return dt;
@@ -47,7 +47,6 @@ namespace FileHandler.Views
 
         private void InitializeDataGrid(DataTable dt) =>
             dataGridView_drinks.DataSource = dt;
-
 
         private DrinkModel GetDrinkFromXMLNode(XmlNode drinkNode)
         {
@@ -57,16 +56,14 @@ namespace FileHandler.Views
                 throw new Exception("Invalid XML structure.");
             }
 
-            return new DrinkModel()
-            {
-                Name = drinkNode.SelectSingleNode("Name")?.InnerText!,
-                Price = double.Parse(drinkNode.SelectSingleNode("Price")?.InnerText ?? "0"),
-                Coffee = double.Parse(ingredients.SelectSingleNode("Coffee")?.InnerText ?? "0"),
-                Milk = ingredients.SelectSingleNode("Milk")?.InnerText!,
-                Sugar = double.Parse(ingredients.SelectSingleNode("Sugar")?.InnerText ?? "0")
-            };
+            return new DrinkModel(
+                drinkNode.SelectSingleNode("Name")?.InnerText!,
+                double.Parse(drinkNode.SelectSingleNode("Price")?.InnerText ?? "0"),
+                double.Parse(ingredients.SelectSingleNode("Coffee")?.InnerText ?? "0"),
+                ingredients.SelectSingleNode("Milk")?.InnerText!,
+                double.Parse(ingredients.SelectSingleNode("Sugar")?.InnerText ?? "0")
+            );
         }
-
 
         private void InitializeFormData()
         {
@@ -106,9 +103,67 @@ namespace FileHandler.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void label_add_Click(object sender, EventArgs e)
+        private void button_add_Click(object sender, EventArgs e)
         {
+            // get all inputs
+            string name = textBox_drinkName.Text;
+            string price = textbox_price.Text;
+            string coffee = comboBox_coffee.Text;
+            string milk = comboBox_milk.Text;
+            string sugar = comboBox_sugar.Text;
 
+            if (IsInvalidValues(name, price, coffee, milk, sugar))
+            {
+                MessageBox.Show("Missing values");
+                return;
+            }
+
+            DrinkModel drinkModel = new DrinkModel(
+                name,
+                double.Parse(price),
+                double.Parse(coffee),
+                milk,
+                double.Parse(sugar));
+
+            xmlDrinkService.CreateNodeFromModel<DrinkModel>(drinkModel);
+            InitializeDataGrid(LoadDrinksFromXML());
         }
+
+        private XmlNode CreateDrinkNodeFromModel(DrinkModel drink)
+        {
+            // Create the main Drink element
+            XmlNode drinkNode = xmlDrinkService.CreateNode("Drink");
+
+            // Create and append the Name element
+            XmlNode nameNode = xmlDrinkService.CreateNode("Name", drink.Name);
+            drinkNode.AppendChild(nameNode);
+
+            // Create and append the Price element
+            XmlNode priceNode = xmlDrinkService.CreateNode("Price", drink.Price.ToString());
+            drinkNode.AppendChild(priceNode);
+
+            // Create the Ingredients element
+            XmlNode ingredientsNode = xmlDrinkService.CreateNode("Ingredients");
+
+            // Create and append the Coffee element
+            XmlNode coffeeNode = xmlDrinkService.CreateNode("Coffee", drink.Ingredients.Coffee.ToString());
+            ingredientsNode.AppendChild(coffeeNode);
+
+            // Create and append the Sugar element
+            XmlNode sugarNode = xmlDrinkService.CreateNode("Sugar", drink.Ingredients.Sugar.ToString());
+            ingredientsNode.AppendChild(sugarNode);
+
+            // Create and append the Milk element
+            XmlNode milkNode = xmlDrinkService.CreateNode("Milk", drink.Ingredients.Milk);
+            ingredientsNode.AppendChild(milkNode);
+
+            // Append the Ingredients element to the Drink element
+            drinkNode.AppendChild(ingredientsNode);
+
+            return drinkNode;
+        }
+
+        private bool IsInvalidValues(params string[] values) =>
+           values.Any(string.IsNullOrWhiteSpace);
     }
 }

@@ -39,7 +39,7 @@
             label_milk = new ReaLTaiizor.Controls.MaterialLabel();
             textbox_price = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
             groupbox_details = new ReaLTaiizor.Controls.ParrotGroupBox();
-            label_add = new Label();
+            button_add = new ReaLTaiizor.Controls.MaterialButton();
             groupbox_portions = new ReaLTaiizor.Controls.ParrotGroupBox();
             dataGridView_drinks = new DataGridView();
             groupbox_details.SuspendLayout();
@@ -121,7 +121,7 @@
             comboBox_sugar.Name = "comboBox_sugar";
             comboBox_sugar.Size = new Size(165, 49);
             comboBox_sugar.StartIndex = 0;
-            comboBox_sugar.TabIndex = 3;
+            comboBox_sugar.TabIndex = 4;
             // 
             // comboBox_coffee
             // 
@@ -143,7 +143,7 @@
             comboBox_coffee.Name = "comboBox_coffee";
             comboBox_coffee.Size = new Size(165, 49);
             comboBox_coffee.StartIndex = 0;
-            comboBox_coffee.TabIndex = 5;
+            comboBox_coffee.TabIndex = 3;
             // 
             // label_coffee
             // 
@@ -189,7 +189,7 @@
             comboBox_milk.Name = "comboBox_milk";
             comboBox_milk.Size = new Size(165, 49);
             comboBox_milk.StartIndex = 0;
-            comboBox_milk.TabIndex = 7;
+            comboBox_milk.TabIndex = 5;
             // 
             // label_milk
             // 
@@ -227,7 +227,7 @@
             textbox_price.SelectionStart = 0;
             textbox_price.ShortcutsEnabled = true;
             textbox_price.Size = new Size(165, 48);
-            textbox_price.TabIndex = 9;
+            textbox_price.TabIndex = 2;
             textbox_price.TabStop = false;
             textbox_price.TextAlign = HorizontalAlignment.Left;
             textbox_price.TrailingIcon = null;
@@ -238,7 +238,7 @@
             // 
             groupbox_details.BorderColor = Color.DodgerBlue;
             groupbox_details.BorderWidth = 1;
-            groupbox_details.Controls.Add(label_add);
+            groupbox_details.Controls.Add(button_add);
             groupbox_details.Controls.Add(textbox_price);
             groupbox_details.Controls.Add(textBox_drinkName);
             groupbox_details.Controls.Add(materialLabel1);
@@ -252,21 +252,27 @@
             groupbox_details.Text = "Details";
             groupbox_details.TextColor = Color.DodgerBlue;
             // 
-            // label_add
+            // button_add
             // 
-            label_add.AutoSize = true;
-            label_add.BackColor = Color.FromArgb(0, 192, 0);
-            label_add.BorderStyle = BorderStyle.FixedSingle;
-            label_add.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label_add.ForeColor = SystemColors.ButtonHighlight;
-            label_add.Location = new Point(567, 40);
-            label_add.MinimumSize = new Size(165, 49);
-            label_add.Name = "label_add";
-            label_add.Size = new Size(165, 49);
-            label_add.TabIndex = 13;
-            label_add.Text = "Add";
-            label_add.TextAlign = ContentAlignment.MiddleCenter;
-            label_add.Click += label_add_Click;
+            button_add.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            button_add.Density = ReaLTaiizor.Controls.MaterialButton.MaterialButtonDensity.Default;
+            button_add.Depth = 0;
+            button_add.HighEmphasis = true;
+            button_add.Icon = null;
+            button_add.IconType = ReaLTaiizor.Controls.MaterialButton.MaterialIconType.Rebase;
+            button_add.Location = new Point(554, 41);
+            button_add.Margin = new Padding(4, 6, 4, 6);
+            button_add.MinimumSize = new Size(165, 48);
+            button_add.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            button_add.Name = "button_add";
+            button_add.NoAccentTextColor = Color.Empty;
+            button_add.Size = new Size(165, 48);
+            button_add.TabIndex = 14;
+            button_add.Text = "Add";
+            button_add.Type = ReaLTaiizor.Controls.MaterialButton.MaterialButtonType.Contained;
+            button_add.UseAccentColor = false;
+            button_add.UseVisualStyleBackColor = true;
+            button_add.Click += button_add_Click;
             // 
             // groupbox_portions
             // 
@@ -290,13 +296,13 @@
             // dataGridView_drinks
             // 
             dataGridView_drinks.AllowUserToAddRows = false;
+            dataGridView_drinks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView_drinks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView_drinks.Location = new Point(265, 225);
             dataGridView_drinks.Name = "dataGridView_drinks";
             dataGridView_drinks.ReadOnly = true;
             dataGridView_drinks.Size = new Size(492, 350);
             dataGridView_drinks.TabIndex = 13;
-            dataGridView_drinks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             // 
             // DrinkOrderForm
             // 
@@ -330,7 +336,7 @@
         private ReaLTaiizor.Controls.MaterialTextBoxEdit textbox_price;
         private ReaLTaiizor.Controls.ParrotGroupBox groupbox_details;
         private ReaLTaiizor.Controls.ParrotGroupBox groupbox_portions;
-        private Label label_add;
         private DataGridView dataGridView_drinks;
+        private ReaLTaiizor.Controls.MaterialButton button_add;
     }
 }

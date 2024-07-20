@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Serialization;
 
 namespace FileHandler.Services
 {
@@ -82,6 +83,44 @@ namespace FileHandler.Services
                     xmlWriter.WriteEndElement();
                     xmlWriter.WriteEndDocument();
                 }
+            }
+        }
+
+        // Pseudo-method for creating a node, assuming an abstracted creation process
+        public XmlNode CreateNode(string name, string innerText = null)
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlNode node = doc.CreateElement(name);
+            if (innerText != null)
+            {
+                node.InnerText = innerText;
+            }
+            return node;
+        }
+
+        public void CreateNodeFromModel<TModel>(TModel model)
+        {
+            // Initialize the XmlSerializer with the type of the model
+            XmlSerializer serializer = new XmlSerializer(typeof(TModel));
+
+            // Use StringWriter for the serialization process
+            using (StringWriter stringWriter = new StringWriter())
+            {
+                // Serialize the model into the StringWriter
+                serializer.Serialize(stringWriter, model);
+
+                // Load the serialized model string into an XmlDocument
+                XmlDocument serializedDoc = new XmlDocument();
+                serializedDoc.LoadXml(stringWriter.ToString());
+
+                // Import the serialized document's root element into the target document
+                XmlNode importedNode = activeDoc.ImportNode(serializedDoc.DocumentElement, true);
+
+                // Append the imported node directly to the document's root element or another specific node
+                activeDoc.DocumentElement.AppendChild(importedNode);
+
+                // Save the active document
+                activeDoc.Save(XmlPath);
             }
         }
 
